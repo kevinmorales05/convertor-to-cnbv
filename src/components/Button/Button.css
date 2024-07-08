@@ -1,0 +1,15 @@
+.btn-structure {
+    background-color: #59c0a4 ;
+    border-radius: 20px;
+    border-color: black;
+    margin: 5px;
+}
+.btn-text {
+    color: black;
+}
+.btn-structure:hover {
+    background-color: white ;
+    border-radius: 20px;
+    border-color: black;
+    margin: 5px;
+}

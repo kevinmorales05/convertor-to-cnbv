@@ -1,0 +1,70 @@
+.convertidor-main {
+    background-color: #E67FAD;
+    height: 3000px;
+}
+.convertidor-block{
+background-color:  #59c0a4 ;
+display: flex;
+justify-content: center;
+}
+.convertidor-title {
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.convertidor-uploadFile {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color:  #59c0a4 ;
+    padding: 15px;
+    border-radius: 10px;
+    border-color: black;
+    
+}
+.convertidor-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20%;
+    margin: 0 auto;
+}
+
+
+.horizontal-scroll-container {
+    width: 90%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: 2px solid black;
+    padding: 15px;
+    margin: 0 auto;
+    background-color:  white;
+    height: 800px;
+  }
+.convertidor-table {
+    margin: 10px;
+}
+.convertidor-head {
+    background-color: #E67FAD;
+    padding: 25px;
+}
+.convertidor-head tr {
+    background-color: #E67FAD;
+    padding: 25px;
+}
+table, th, td {
+    border: 1px solid;
+  }
+
+th {
+    height: 50px;
+}
+td {
+    text-align: center;
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+  }

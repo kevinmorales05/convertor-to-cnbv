@@ -1,0 +1,38 @@
+{
+    "id": 1,
+    "sections": {
+        "section_identificador_reclamacion": {
+            "folio":"F0001",
+            "estatus_reclamacion":"101",
+            "fecha_actualizacion":"20240306"
+        },
+        "section_id_cliente": {
+            "identificador_cliente":"434324dasdsad",
+            "identificador_cuenta":"434357899",
+            "identificador_movimiento":"2313131243124312"
+        },
+        "section_detalle_reclamacion": {
+            "fecha_reclamacion":"20240506c",
+            "canal_recepcion_reclamacion": "202",
+            "tipo_reclamacion": "301",
+            "motivo_reclamacion": "402",
+            "descripcion_reclamacion":"me cobraron sin consultarme"
+        },
+        "section_detalle_evento_origen_reclamacion": {
+            "fecha_evento":"20240506",
+            "objeto_evento": "505",
+            "canal_operacion_no_reconocida":"609",
+            "importe_moneda_nacional":"2000"
+        },
+        "section_detalle_resolucion":{
+            "fecha_resolucion":"20240706",
+            "sentido_resolucion":"709",
+            "importe_abonado":"2000",
+            "identificador_cuenta_institucion":"232132132",
+            "importe_recuperado":"2000",
+            "fecha_recuperacion":"20240607",
+            "identificador_cuenta_receptora":"4324234234",
+            "quebranto_institucion":"0"
+        }
+    }
+}

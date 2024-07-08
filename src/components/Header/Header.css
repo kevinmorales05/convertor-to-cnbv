@@ -1,0 +1,16 @@
+.header-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: #E67FAD;
+}
+.header-logo {
+    grid-column: 1/2;
+    width: 300px;
+    height: auto;
+    padding: 20px;
+}
+.header-title {
+    grid-column: 2/3;
+    justify-content: center;
+    text-align: center;
+}
