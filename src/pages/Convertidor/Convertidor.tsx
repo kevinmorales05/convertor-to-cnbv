@@ -68,10 +68,14 @@ export default function Convertidor() {
           <div className="convertidor-btns">
             <Button
               onClick={() => convertoCnbv(data)}
-              text={"Convertir a CNBV"}
+              text={"Convertir a CNBV R7"}
+            />
+            <Button
+              onClick={() => convertoCnbv(data)}
+              text={"Convertir a CONDUSEF Mensual"}
             />
 
-            <Button onClick={uploadFile} text={"Convertir a CONDUSEF"} />
+            <Button onClick={uploadFile} text={"Convertir a CONDUSEF Trimestral"} />
           </div>
         </>
       ) : (
