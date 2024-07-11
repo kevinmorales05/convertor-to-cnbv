@@ -15,6 +15,7 @@ export default function Convertidor() {
   const [dataConverted, setDataConverted] = useState<CsvData[]>([]);
 
   const [uploadedFile, setUploadedFile] = useState(false);
+const [fileConvertedName, setFileConvertedName] = useState('');
 
   function uploadFile() {
     console.log("upload file");
@@ -22,9 +23,31 @@ export default function Convertidor() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     console.log("archivo", file);
-    console.log("archivo", file.name);
+    console.log("archivo nombre", file.name);
     setFileToUpload(file.name);
     if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          //console.log("results ", results);
+          setData(results.data as CsvData[]);
+        },
+      });
+      setUploadedFile(true);
+    }
+  };
+
+  function convertFileToCNBV( data) {
+    let file: CsvData[] = convertoCnbv(data);
+    console.log('archivo front ', file);
+    //const infoFile = data.target.files?.[0];
+
+    if(file){
+      setDataConverted(file);
+      console.log('por aqui se valida bien');
+      setFileConvertedName("archivoConvertido.csv");
+      //setData(file as CsvData[]);
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -33,11 +56,12 @@ export default function Convertidor() {
           setData(results.data as CsvData[]);
         },
       });
-      setUploadedFile(true);
-    }
-  };
 
-  function convertFileToCNBV() {
+     
+     
+
+    }
+
     console.log("to CNBV");
     setUploadedFile(false);
   }
@@ -46,6 +70,27 @@ export default function Convertidor() {
     setUploadedFile(false);
   }
   function downloadFile() {
+    console.log('data to download ', data);
+    console.log(typeof dataConverted);
+     //descargar archivo
+     const csv = Papa.unparse(data);
+
+     // Crear un blob a partir del CSV
+     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+ 
+     // Crear un enlace para la descarga
+     const url = URL.createObjectURL(blob);
+ 
+     // Crear un enlace y simular un clic para descargar el archivo
+     const link = document.createElement('a');
+     link.href = url;
+     console.log('el link',link)
+     link.setAttribute('download', 'tickets.csv');
+     document.body.appendChild(link);
+     link.click();
+
+
+
     console.log("descargando archivo");
   }
 
@@ -67,7 +112,7 @@ export default function Convertidor() {
         <>
           <div className="convertidor-btns">
             <Button
-              onClick={() => convertoCnbv(data)}
+              onClick={() => convertFileToCNBV(data)}
               text={"Convertir a CNBV R7"}
             />
             <Button
@@ -96,7 +141,7 @@ export default function Convertidor() {
         <>
           <div>
             <h2>Archivo Convertido</h2>
-            <p>{fileToUpload}</p>
+            <p>{fileConvertedName}</p>
             <button onClick={downloadFile}>
               <FaDownload />
             </button>

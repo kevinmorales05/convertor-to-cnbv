@@ -1,6 +1,7 @@
 //convertir en un archivo csv segun el formato establecido
 
 import { CsvData, Reclamacion, Ticket } from "../types/types";
+import Papa from 'papaparse';
 
 const convertoCnbv = (data: CsvData[]) => {
   //console.log('to cnbv ', data[0]);
@@ -38,7 +39,7 @@ const convertoCnbv = (data: CsvData[]) => {
     let quebranto = ticket["Quebranto Institución"].split('-')[0];
     let numeroReferencia = ticket["Reference Number"];
     let resultadoEncuesta = ticket["Resultados de la encuesta"];
-    let sentidoResolucion = ticket["Sentido de la Resolución"];
+    let sentidoResolucion = ticket["Sentido de la Resolución"].split('-')[0];
     let  tiempoPrimeraRespuestaHoras = ticket["Tiempo de primera respuesta (en horas)"];
     let tiempoResolucionHoras = ticket["Tiempo de resolución (en horas)"];
     let tiempoRespuestaInicial = ticket["Tiempo de respuesta inicial"];
@@ -87,96 +88,111 @@ const convertoCnbv = (data: CsvData[]) => {
     ticketsArray.push(newTicket);
 
   });
-  buildTicket(ticketsArray);
+  let csvFile: CsvData[] = convertToCsv(buildCNBVTicket(ticketsArray));
+
+  //console.log('este es el csv ', csvFile);
   //console.log('to cnbv ', data);
+  return csvFile;
 };
-const buildTicket = (arrayOfTickets: Array<Ticket>) => {
+const buildCNBVTicket= (arrayOfTickets: Array<Ticket>) => {
   
-    console.log(arrayOfTickets);
+    console.log("Formatted array of tickets",arrayOfTickets);
     let newArray: Reclamacion[] = [];
-
-
-
   arrayOfTickets.map((ticket) => {
-    let fechaReclamacionRaw = new Date(ticket.hourOfCreation);
-    
-
-    const horas = fechaReclamacionRaw.getHours();
-    const minutos = fechaReclamacionRaw.getMinutes();
-    const segundos = fechaReclamacionRaw.getSeconds();
-    const ano = fechaReclamacionRaw.getFullYear();
-    const mes = (fechaReclamacionRaw.getMonth() + 1).toString().padStart(2, '0'); // Los meses van de 0 a 11
-    const dia = fechaReclamacionRaw.getDate().toString().padStart(2, '0');
-    let fechaReclamacion = `${ano}-${mes}-${dia}`;
-
-// Formatear la hora como una cadena
-    let horaTexto = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
-console.log(horaTexto);
-console.log('fecha reclamacion ', fechaReclamacion);
-
-
-//validate date of ticket close
-let fechaResolucion = '';
-if(ticket.closeHour !== ''){
-    let fechaResolucionRaw = new Date(ticket.hourOfCreation);
-    
-
-    const horas = fechaResolucionRaw.getHours();
-    const minutos = fechaResolucionRaw.getMinutes();
-    const segundos = fechaResolucionRaw.getSeconds();
-    const ano = fechaResolucionRaw.getFullYear();
-    const mes = (fechaResolucionRaw.getMonth() + 1).toString().padStart(2, '0'); // Los meses van de 0 a 11
-    const dia = fechaResolucionRaw.getDate().toString().padStart(2, '0');
-    fechaResolucion = `${ano}-${mes}-${dia}`;
-
-// Formatear la hora como una cadena
-    let horaResolucion = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
-console.log(horaResolucion);
-console.log('fecha resolucion ', fechaResolucion);
-
-}
-
     newArray.push({
       id: ticket.idTicket,
       sections: {
         section_identificador_reclamacion: {
           folio: ticket.idTicket,
           estatus_reclamacion: ticket.state,
-          fecha_actualizacion: "",
+          fecha_actualizacion: getDate(ticket.lastUpdateHour),
         },
         section_id_cliente: {
-          identificador_cliente: ticket.contactId,
-          identificador_cuenta: "",
-          identificador_movimiento: "",
+          identificador_cliente: ticket.idContacto,
+          identificador_cuenta: ticket.cuentaCliente,
+          identificador_movimiento: "", ///agregar a freshservice
         },
         section_detalle_reclamacion: {
-          fecha_reclamacion: fechaReclamacion,
-          canal_recepcion_reclamacion: "",
-          tipo_reclamacion: "",
-          motivo_reclamacion: "",
+          fecha_reclamacion: getDate(ticket.hourOfCreation),
+          canal_recepcion_reclamacion: ticket.origin,
+          tipo_reclamacion: ticket.tipoReclamacion,
+          motivo_reclamacion: ticket.motivoReclamacion,
           descripcion_reclamacion: ticket.asunto,
         },
         section_detalle_evento_origen_reclamacion: {
-          fecha_evento: fechaReclamacion,
-          objeto_evento: "",
-          canal_operacion_no_reconocida: "",
-          importe_moneda_nacional: "",
+          fecha_evento: getDate(ticket.hourOfCreation),
+          objeto_evento: ticket.objetoEvento,
+          canal_operacion_no_reconocida: ticket.canalOperacionNoReconocida,
+          importe_moneda_nacional: ticket.importeMonedaNacional,
         },
         section_detalle_resolucion: {
-          fecha_resolucion: fechaResolucion,
-          sentido_resolucion: "",
-          importe_abonado: "",
-          identificador_cuenta_institucion: "",
-          importe_recuperado: "",
-          fecha_recuperacion: "",
-          identificador_cuenta_receptora: "",
-          quebranto_institucion: "0",
+          fecha_resolucion: ticket.closeHour !== "" ? getDate(ticket.closeHour): "",
+          sentido_resolucion: ticket.sentidoResolucion,
+          importe_abonado: ticket.importeAbonado,
+          identificador_cuenta_institucion: ticket.identificadorCuentaReceptora,
+          importe_recuperado: '', //agregar a freshservice
+          fecha_recuperacion: ticket.fechaRecuperacion !== "" ? getDate(ticket.fechaRecuperacion) : "",
+          identificador_cuenta_receptora: ticket.identificadorCuentaReceptora,
+          quebranto_institucion: ticket.quebranto,
         },
       },
     });
   });
+
+  console.log("formato CNBV ", newArray);
+
+  return newArray;
+
+};
+
+function getDate(fecha:string) {
+  let fechaReclamacionRaw = new Date(fecha);
+    const ano = fechaReclamacionRaw.getFullYear();
+    const mes = (fechaReclamacionRaw.getMonth() + 1).toString().padStart(2, '0'); // Los meses van de 0 a 11
+    const dia = fechaReclamacionRaw.getDate().toString().padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
+}
+function getHour(fecha:string) {
+  let fechaReclamacionRaw = new Date(fecha);
+  const horas = fechaReclamacionRaw.getHours();
+  const minutos = fechaReclamacionRaw.getMinutes();
+  const segundos = fechaReclamacionRaw.getSeconds();
+  
+ return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+
+}
+
+const flattenData = (data) => {
+  return data.map(ticket => ({
+    id: ticket.id,
+    ...ticket.sections.section_identificador_reclamacion,
+    ...ticket.sections.section_id_cliente,
+    ...ticket.sections.section_detalle_reclamacion,
+    ...ticket.sections.section_detalle_evento_origen_reclamacion,
+    ...ticket.sections.section_detalle_resolucion,
+  }));
+};
+
+
+function convertToCsv(arrayOfTickets: Reclamacion[]): CsvData[]{
+  const csv: CsvData[] = Papa.unparse(flattenData(arrayOfTickets));
+  //console.log('converted to csv, ', csv)
+  return csv;
+}
+
+
+const downloadCsv = (tickets) => {
+  const csv = convertToCsv(tickets);
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'tickets.csv');
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };
 
 export default convertoCnbv;
