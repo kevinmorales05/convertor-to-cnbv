@@ -105,10 +105,10 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
   arrayOfTickets.map((ticket) => {
     //googleworkspace-noreply@google.com
     //billing@freshworks.com
-    if (ticket.idContacto === "support@freshdesk.com" || ticket.idContacto === "googleworkspace-noreply@google.com" || ticket.idContacto === "billing@freshworks.com" ) {
-     console.log('No valid!')
-    }
-    else {
+    // if (ticket.idContacto === "support@freshdesk.com" || ticket.idContacto === "googleworkspace-noreply@google.com" || ticket.idContacto === "billing@freshworks.com" ) {
+    //  console.log('No valid!')
+    // }
+    //else {
       newArray.push({
         clave_de_instituacion: "65-059",
         id: ticket.idTicket,
@@ -155,7 +155,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
           },
         },
       });
-    }
+    //}
 
     return true;
   });
