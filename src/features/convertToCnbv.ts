@@ -175,6 +175,7 @@ function getDate(fecha: string) {
 
 const flattenData = (data) => {
   return data.map((ticket) => ({
+    clave_de_instituacion: "65-059",
     id: ticket.id,
     ...ticket.sections.section_identificador_reclamacion,
     ...ticket.sections.section_id_cliente,
