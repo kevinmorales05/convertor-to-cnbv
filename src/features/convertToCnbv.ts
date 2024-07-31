@@ -86,6 +86,7 @@ const convertoCnbv = (data: CsvData[]) => {
     };
 
     ticketsArray.push(newTicket);
+    return true;
 
   });
   let csvFile: CsvData[] = convertToCsv(buildCNBVTicket(ticketsArray));
@@ -137,6 +138,7 @@ const buildCNBVTicket= (arrayOfTickets: Array<Ticket>) => {
         },
       },
     });
+    return true;
   });
 
   console.log("formato CNBV ", newArray);
@@ -151,15 +153,6 @@ function getDate(fecha:string) {
     const mes = (fechaReclamacionRaw.getMonth() + 1).toString().padStart(2, '0'); // Los meses van de 0 a 11
     const dia = fechaReclamacionRaw.getDate().toString().padStart(2, '0');
     return `${ano}-${mes}-${dia}`;
-}
-function getHour(fecha:string) {
-  let fechaReclamacionRaw = new Date(fecha);
-  const horas = fechaReclamacionRaw.getHours();
-  const minutos = fechaReclamacionRaw.getMinutes();
-  const segundos = fechaReclamacionRaw.getSeconds();
-  
- return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
 }
 
 const flattenData = (data) => {
@@ -180,19 +173,5 @@ function convertToCsv(arrayOfTickets: Reclamacion[]): CsvData[]{
   return csv;
 }
 
-
-const downloadCsv = (tickets) => {
-  const csv = convertToCsv(tickets);
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement('a');
-  const url = URL.createObjectURL(blob);
-
-  link.setAttribute('href', url);
-  link.setAttribute('download', 'tickets.csv');
-  link.style.visibility = 'hidden';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
 
 export default convertoCnbv;

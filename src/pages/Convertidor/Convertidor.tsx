@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Convertidor.css";
 import Button from "../../components/Button/Button.tsx";
-import { FaCloudDownloadAlt } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
 import Papa from "papaparse";
 import convertoCnbv from "../../features/convertToCnbv.ts";
@@ -22,7 +21,7 @@ const [fileConvertedName, setFileConvertedName] = useState('');
   }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log("archivo", file);
+    //console.log("archivo", file);
     console.log("archivo nombre", file.name);
     setFileToUpload(file.name);
     if (file) {
@@ -65,10 +64,10 @@ const [fileConvertedName, setFileConvertedName] = useState('');
     console.log("to CNBV");
     setUploadedFile(false);
   }
-  function convertFileToCondusef() {
-    console.log("to Condusef");
-    setUploadedFile(false);
-  }
+  // function convertFileToCondusef() {
+  //   console.log("to Condusef");
+  //   setUploadedFile(false);
+  // }
   function downloadFile() {
     console.log('data to download ', data);
     console.log(typeof dataConverted);
