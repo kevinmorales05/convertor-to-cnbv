@@ -33,6 +33,8 @@ interface SectionDetalleReclamacion {
   tipo_reclamacion: string;
   motivo_reclamacion: string;
   descripcion_reclamacion: string;
+  estado_reclamacion: string;
+  tipo_Canal: string;
 }
 
 interface SectionDetalleEventoOrigenReclamacion {
