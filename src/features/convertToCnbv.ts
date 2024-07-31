@@ -110,14 +110,13 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
     }
     else {
       newArray.push({
+        clave_de_instituacion: "65-059",
         id: ticket.idTicket,
         sections: {
           section_identificador_reclamacion: {
             folio: ticket.idTicket,
             estatus_reclamacion: ticket.state,
-            fecha_actualizacion: getDate(ticket.lastUpdateHour),
-            casfim: "65-059"
-            
+            fecha_actualizacion: getDate(ticket.lastUpdateHour),       
           },
           section_id_cliente: {
             identificador_cliente: ticket.idContacto,
