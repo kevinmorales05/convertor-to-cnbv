@@ -103,7 +103,12 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
   console.log("Formatted array of tickets", arrayOfTickets);
   let newArray: Reclamacion[] = [];
   arrayOfTickets.map((ticket) => {
-    if (ticket.idContacto !== "support@freshdesk.com") {
+    //googleworkspace-noreply@google.com
+    //billing@freshworks.com
+    if (ticket.idContacto === "support@freshdesk.com" || ticket.idContacto === "googleworkspace-noreply@google.com" || ticket.idContacto === "billing@freshworks.com" ) {
+     console.log('No valid!')
+    }
+    else {
       newArray.push({
         id: ticket.idTicket,
         sections: {
