@@ -87,6 +87,8 @@ interface Ticket {
   fechaRecuperacion: string;
   nombreCompleto: string;
   idContacto: string;
+  tipoCanal: string;
+  estadoReclamacion: string;
 };
 
 
