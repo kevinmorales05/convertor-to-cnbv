@@ -116,6 +116,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
             folio: ticket.idTicket,
             estatus_reclamacion: ticket.state,
             fecha_actualizacion: getDate(ticket.lastUpdateHour),
+            casfim: "65-059"
             
           },
           section_id_cliente: {

@@ -19,6 +19,7 @@ interface SectionIdentificadorReclamacion {
   folio: string;
   estatus_reclamacion: string;
   fecha_actualizacion: string;
+  casfim: string;
 }
 
 interface SectionIdCliente {
