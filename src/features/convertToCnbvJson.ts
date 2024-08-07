@@ -185,10 +185,6 @@ const flattenData = (data) => {
   }));
 };
 
-function convertToCsv(arrayOfTickets: Reclamacion[]): CsvData[] {
-  const csv: CsvData[] = Papa.unparse(flattenData(arrayOfTickets));
-  //console.log('converted to csv, ', csv)
-  return csv;
-}
+
 
 export default convertoCnbvJson;
