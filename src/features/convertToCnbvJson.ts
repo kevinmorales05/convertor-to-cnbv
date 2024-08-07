@@ -1,7 +1,6 @@
 //convertir en un archivo csv segun el formato establecido
 
 import { CsvData, Reclamacion, Ticket } from "../types/types";
-import Papa from "papaparse";
 
 const convertoCnbvJson = (data: CsvData[]) => {
   //console.log('to cnbv ', data[0]);
@@ -172,18 +171,6 @@ function getDate(fecha: string) {
   const dia = fechaReclamacionRaw.getDate().toString().padStart(2, "0");
   return `${ano}-${mes}-${dia}`;
 }
-
-const flattenData = (data) => {
-  return data.map((ticket) => ({
-    clave_de_instituacion: "65-059",
-    id: ticket.id,
-    ...ticket.sections.section_identificador_reclamacion,
-    ...ticket.sections.section_id_cliente,
-    ...ticket.sections.section_detalle_reclamacion,
-    ...ticket.sections.section_detalle_evento_origen_reclamacion,
-    ...ticket.sections.section_detalle_resolucion,
-  }));
-};
 
 
 
