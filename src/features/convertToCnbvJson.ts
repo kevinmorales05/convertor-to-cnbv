@@ -93,7 +93,6 @@ const convertoCnbvJson = (data: CsvData[]) => {
     ticketsArray.push(newTicket);
     return true;
   });
-  let csvFile: CsvData[] = convertToCsv(buildCNBVTicket(ticketsArray));
   let jsonToSend = buildCNBVTicket(ticketsArray);
 
   //console.log('este es el csv ', csvFile);
