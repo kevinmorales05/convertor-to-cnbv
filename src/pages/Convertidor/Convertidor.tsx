@@ -6,6 +6,7 @@ import Papa from "papaparse";
 import convertoCnbv from "../../features/convertToCnbv.ts";
 
 import { CsvData } from "../../types/types.ts";
+import convertoCnbvJson from "../../features/convertToCnbvJson.ts";
 
 export default function Convertidor() {
   const [fileToUpload, setFileToUpload] = useState("");
@@ -68,6 +69,28 @@ const [fileConvertedName, setFileConvertedName] = useState('');
   //   console.log("to Condusef");
   //   setUploadedFile(false);
   // }
+  function convertFileToCNBVJson(){
+    let file = convertoCnbvJson(data);
+    console.log("JSON", file);
+
+    // Crear un blob a partir del CSV
+    const jsonString = JSON.stringify(file, null, 2);
+  
+    const blob = new Blob([jsonString], { type: 'application/json' });
+
+    // Crear un enlace para la descarga
+    const url = URL.createObjectURL(blob);
+    // Crear un enlace y simular un clic para descargar el archivo
+    const link = document.createElement('a');
+    link.href = url;
+    console.log('json link',link)
+    link.setAttribute('download', 'r27File.json');
+    document.body.appendChild(link);
+    link.click();
+
+  }
+
+
   function downloadFile() {
     console.log('data to download ', data);
     console.log(typeof dataConverted);
@@ -113,6 +136,10 @@ const [fileConvertedName, setFileConvertedName] = useState('');
             <Button
               onClick={() => convertFileToCNBV(data)}
               text={"Convertir a CNBV R7"}
+            />
+            <Button
+              onClick={() => convertFileToCNBVJson(data)}
+              text={"Descargar archivo CNBV R7 JSON"}
             />
             <Button
               onClick={() => convertoCnbv(data)}
