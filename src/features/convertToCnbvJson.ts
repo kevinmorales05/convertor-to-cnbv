@@ -108,7 +108,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
                 inicio_periodo: "",
                 fin_periodo: "",
                 clave_institucion: "065059",
-                reporte: ""
+                reporte: "2701"
             },
             seccion_identificador_reclamacion: {
                 folio_reclamacion: ticket.idTicket,
