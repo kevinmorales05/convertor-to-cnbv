@@ -1,6 +1,6 @@
 //convertir en un archivo csv segun el formato establecido
 
-import { CsvData, Reclamacion, Ticket } from "../types/types";
+import { CsvData, Ticket } from "../types/types";
 
 const convertoCnbvJson = (data: CsvData[]) => {
   //console.log('to cnbv ', data[0]);
@@ -100,61 +100,67 @@ const convertoCnbvJson = (data: CsvData[]) => {
 };
 const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
   console.log("Formatted array of tickets", arrayOfTickets);
-  let newArray: Reclamacion[] = [];
+  let newArray: any[] = [];
   arrayOfTickets.map((ticket) => {
-    //googleworkspace-noreply@google.com
-    //billing@freshworks.com
-    // if (ticket.idContacto === "support@freshdesk.com" || ticket.idContacto === "googleworkspace-noreply@google.com" || ticket.idContacto === "billing@freshworks.com" ) {
-    //  console.log('No valid!')
-    // }
-    //else {
-      newArray.push({
-        clave_de_instituacion: "65-059",
-        id: ticket.idTicket,
-        sections: {
-          section_identificador_reclamacion: {
-            folio: ticket.idTicket,
-            estatus_reclamacion: ticket.state,
-            fecha_actualizacion: getDate(ticket.lastUpdateHour),       
-          },
-          section_id_cliente: {
-            identificador_cliente: ticket.idContacto,
-            identificador_cuenta: ticket.cuentaCliente,
-            identificador_movimiento: "", ///agregar a freshservice
-          },
-          section_detalle_reclamacion: {
-            fecha_reclamacion: getDate(ticket.hourOfCreation),
-            canal_recepcion_reclamacion: ticket.origin,
-            tipo_reclamacion: ticket.tipoReclamacion,
-            motivo_reclamacion: ticket.motivoReclamacion,
-            descripcion_reclamacion: ticket.asunto,
-            estado_reclamacion: ticket.estadoReclamacion,
-            tipo_Canal: ticket.tipoCanal
-          },
-          section_detalle_evento_origen_reclamacion: {
-            fecha_evento: getDate(ticket.hourOfCreation),
-            objeto_evento: ticket.objetoEvento,
-            canal_operacion_no_reconocida: ticket.canalOperacionNoReconocida,
-            importe_moneda_nacional: ticket.importeMonedaNacional,
-          },
-          section_detalle_resolucion: {
-            fecha_resolucion:
-              ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
-            sentido_resolucion: ticket.sentidoResolucion,
-            importe_abonado: ticket.importeAbonado,
-            identificador_cuenta_institucion:
-              ticket.identificadorCuentaReceptora,
-            importe_recuperado: "", //agregar a freshservice
-            fecha_recuperacion:
-              ticket.fechaRecuperacion !== ""
-                ? getDate(ticket.fechaRecuperacion)
-                : "",
-            identificador_cuenta_receptora: ticket.identificadorCuentaReceptora,
-            quebranto_institucion: ticket.quebranto,
-          },
-        },
-      });
-    //}
+ 
+        newArray.push({
+            seccion_identificador_reporte : {
+                inicio_periodo: "",
+                fin_periodo: "",
+                clave_institucion: "65059",
+                reporte: ""
+            },
+            seccion_identificador_reclamacion: {
+                folio_reclamacion: ticket.idTicket,
+                estatus_reclamacion: ticket.state,
+                fecha_actualizacion_status: getDate(ticket.lastUpdateHour),       
+              },
+            seccion_identificacion_cliente: {
+                identificador_cliente: "",
+                identificador_cuenta: "",
+                identificador_movimiento:""
+            },
+            seccion_detalle_reclamacion: {
+                fecha_reclamacion: getDate(ticket.hourOfCreation),
+                canal_recepcion_reclamacion: ticket.origin,
+                tipo_reclamacion: ticket.tipoReclamacion,
+                motivo_reclamacion: ticket.motivoReclamacion,
+                descripcion_reclamacion: ticket.asunto,
+                //estado_reclamacion: ticket.estadoReclamacion,
+                //tipo_Canal: ticket.tipoCanal
+              },
+              seccion_detalle_evento_origen_reclamacion: {
+                fecha_evento: getDate(ticket.hourOfCreation),
+                objeto_evento: ticket.objetoEvento,
+                canal_operacion_no_reconocida: ticket.canalOperacionNoReconocida,
+                importe_moneda_nacional: ticket.importeMonedaNacional,
+              },
+              section_detalle_resolucion: {
+                fecha_resolucion:
+                  ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
+                sentido_resolucion: ticket.sentidoResolucion,
+                importe_abonado_cuenta_cliente: ticket.importeAbonado,
+                fecha_abono_cuenta_cliente : "",
+                identificador_cuenta_institucion:
+                  ticket.identificadorCuentaReceptora,
+                importe_recuperado: "", //agregar a freshservice
+                fecha_recuperacion:
+                  ticket.fechaRecuperacion !== ""
+                    ? getDate(ticket.fechaRecuperacion)
+                    : "",
+                identificador_cuenta_receptora: ticket.identificadorCuentaReceptora,
+                quebranto_institucion: ticket.quebranto,
+              },
+
+
+            
+            //fecha abono cuenta cliente
+            // identificador_cliente: "",
+            //     identificador_cuenta: "",
+            //     identificador_movimiento:""
+
+
+        });
 
     return true;
   });
@@ -169,7 +175,8 @@ function getDate(fecha: string) {
   const ano = fechaReclamacionRaw.getFullYear();
   const mes = (fechaReclamacionRaw.getMonth() + 1).toString().padStart(2, "0"); // Los meses van de 0 a 11
   const dia = fechaReclamacionRaw.getDate().toString().padStart(2, "0");
-  return `${ano}-${mes}-${dia}`;
+  console.log('get date ')
+  return `${ano}${mes}${dia}`;
 }
 
 
