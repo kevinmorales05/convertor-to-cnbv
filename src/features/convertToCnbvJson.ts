@@ -107,7 +107,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
             seccion_identificador_reporte : {
                 inicio_periodo: "",
                 fin_periodo: "",
-                clave_institucion: "65059",
+                clave_institucion: "065059",
                 reporte: ""
             },
             seccion_identificador_reclamacion: {
@@ -122,7 +122,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
             },
             seccion_detalle_reclamacion: {
                 fecha_reclamacion: getDate(ticket.hourOfCreation),
-                canal_recepcion_reclamacion: ticket.origin,
+                canal_recepcion_reclamacion: ticket.tipoCanal,
                 tipo_reclamacion: ticket.tipoReclamacion,
                 motivo_reclamacion: ticket.motivoReclamacion,
                 descripcion_reclamacion: ticket.asunto,
