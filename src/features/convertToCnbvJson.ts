@@ -8,7 +8,7 @@ const convertoCnbvJson = (data: CsvData[]) => {
   //depuracion ticket
   let ticketsArray: Array<Ticket> = [];
   data.map((ticket) => {
-    //console.log(ticket);
+    console.log(ticket);
     let agente = ticket["Agente"];
     let asunto = ticket["Asunto"];
     let canalOperacionNoReconocida =
