@@ -92,6 +92,8 @@ interface Ticket {
   idContacto: string;
   tipoCanal: string;
   estadoReclamacion: string;
+  identificador_cliente: string;
+  identificador_movimiento: string
 };
 
 

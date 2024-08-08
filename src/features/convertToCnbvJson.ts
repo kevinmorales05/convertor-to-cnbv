@@ -50,6 +50,9 @@ const convertoCnbvJson = (data: CsvData[]) => {
     let tipoReclamacion = ticket["Tipo Reclamación"].split("-")[0];
     let tipoCanal = ticket["Tipo de Canal"].split("-")[0];
     let estadoReclamacion = ticket["Estado Reclamación"].split("-")[0];
+    //nuevos campos
+  let identificador_cliente = ticket['Identificador de Cliente'];
+  let identificador_movimiento = ticket['Identificador de Movimiento'];
 
     //construyo ticket de acuerdo al formato
     let newTicket: Ticket = {
@@ -87,6 +90,8 @@ const convertoCnbvJson = (data: CsvData[]) => {
       idContacto,
       tipoCanal,
       estadoReclamacion,
+      identificador_cliente,
+      identificador_movimiento,
     };
 
     ticketsArray.push(newTicket);
@@ -116,9 +121,9 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
                 fecha_actualizacion_status: getDate(ticket.lastUpdateHour),       
               },
             seccion_identificacion_cliente: {
-                identificador_cliente: "",
-                identificador_cuenta: "",
-                identificador_movimiento:""
+                identificador_cliente: ticket.identificador_cliente,  ///añadir a freshdesk y propagar aqui
+                identificador_cuenta: ticket.cuentaCliente,
+                identificador_movimiento:ticket.identificador_movimiento ///añadir a freshdesk y propagar aqui
             },
             seccion_detalle_reclamacion: {
                 fecha_reclamacion: getDate(ticket.hourOfCreation),
