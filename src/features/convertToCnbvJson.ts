@@ -112,7 +112,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
             },
             seccion_identificador_reclamacion: {
                 folio_reclamacion: ticket.idTicket,
-                estatus_reclamacion: ticket.state,
+                estatus_reclamacion: ticket.estadoReclamacion,
                 fecha_actualizacion_status: getDate(ticket.lastUpdateHour),       
               },
             seccion_identificacion_cliente: {
