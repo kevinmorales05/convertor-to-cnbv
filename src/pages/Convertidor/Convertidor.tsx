@@ -22,7 +22,7 @@ const [fileConvertedName, setFileConvertedName] = useState('');
   }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    //console.log("archivo", file);
+    console.log("archivo", file);
     console.log("archivo nombre", file.name);
     setFileToUpload(file.name);
     if (file) {

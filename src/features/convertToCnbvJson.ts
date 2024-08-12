@@ -51,8 +51,8 @@ const convertoCnbvJson = (data: CsvData[]) => {
     let tipoCanal = ticket["Tipo de Canal"].split("-")[0];
     let estadoReclamacion = ticket["Estado Reclamación"].split("-")[0];
     //nuevos campos
-  let identificador_cliente = ticket['Identificador de Cliente'];
-  let identificador_movimiento = ticket['Identificador de Movimiento'];
+    let identificador_cliente = ticket["Identificador de Cliente"];
+    let identificador_movimiento = ticket["Identificador de Movimiento"];
 
     //construyo ticket de acuerdo al formato
     let newTicket: Ticket = {
@@ -106,73 +106,160 @@ const convertoCnbvJson = (data: CsvData[]) => {
 const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
   console.log("Formatted array of tickets", arrayOfTickets);
   let newArray: any[] = [];
+
   arrayOfTickets.map((ticket) => {
- 
-        newArray.push({
-            seccion_identificador_reporte : {
-                inicio_periodo: "",
-                fin_periodo: "",
-                clave_institucion: "065059",
-                reporte: "2701"
-            },
-            seccion_identificador_reclamacion: {
-                folio_reclamacion: ticket.idTicket,
-                estatus_reclamacion: ticket.estadoReclamacion,
-                fecha_actualizacion_status: getDate(ticket.lastUpdateHour),       
-              },
-            seccion_identificacion_cliente: {
-                identificador_cliente: ticket.identificador_cliente,  ///añadir a freshdesk y propagar aqui
-                identificador_cuenta: ticket.cuentaCliente,
-                identificador_movimiento:ticket.identificador_movimiento ///añadir a freshdesk y propagar aqui
-            },
-            seccion_detalle_reclamacion: {
-                fecha_reclamacion: getDate(ticket.hourOfCreation),
-                canal_recepcion_reclamacion: ticket.tipoCanal,
-                tipo_reclamacion: ticket.tipoReclamacion,
-                motivo_reclamacion: ticket.motivoReclamacion,
-                descripcion_reclamacion: ticket.asunto,
-                //estado_reclamacion: ticket.estadoReclamacion,
-                //tipo_Canal: ticket.tipoCanal
-              },
-              seccion_detalle_evento_origen_reclamacion: {
-                fecha_evento: getDate(ticket.hourOfCreation),
-                objeto_evento: ticket.objetoEvento,
-                canal_operacion_no_reconocida: ticket.canalOperacionNoReconocida,
-                importe_moneda_nacional: ticket.importeMonedaNacional,
-              },
-              section_detalle_resolucion: {
-                fecha_resolucion:
-                  ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
-                sentido_resolucion: ticket.sentidoResolucion,
-                importe_abonado_cuenta_cliente: ticket.importeAbonado,
-                fecha_abono_cuenta_cliente : "",
-                identificador_cuenta_institucion:
-                  ticket.identificadorCuentaReceptora,
-                importe_recuperado: "", //agregar a freshservice
-                fecha_recuperacion:
-                  ticket.fechaRecuperacion !== ""
-                    ? getDate(ticket.fechaRecuperacion)
-                    : "",
-                identificador_cuenta_receptora: ticket.identificadorCuentaReceptora,
-                quebranto_institucion: ticket.quebranto,
-              },
+
+    if (ticket.estadoReclamacion === '101') {
+      newArray.push({
+        identificacionReclamacion: {
+          folioReclamacion: `F00000${ticket.idTicket}`,
+          estatusReclamacion: ticket.estadoReclamacion,
+          fechaActualizacionEstatus: getDate(ticket.lastUpdateHour),
+        },
+        identificadorClienteCuentaMovimiento: {
+          identificadorCliente: ticket.identificador_cliente, ///añadir a freshdesk y propagar aqui
+          identificadorCuenta: ticket.cuentaCliente,
+          identificadorMovimiento: ticket.identificador_movimiento, ///añadir a freshdesk y propagar aqui
+        },
+        detalleReclamacion: {
+          fechaReclamacion: getDate(ticket.hourOfCreation),
+          canalRecepcionReclamacion: ticket.tipoCanal,
+          tipoReclamacion: ticket.tipoReclamacion,
+          motivoReclamacion: ticket.motivoReclamacion,
+          descripcionReclamacion: ticket.asunto,
+        },
+        detalleEventoOriginaReclamacion: {
+          fechaEvento: getDate(ticket.hourOfCreation),
+          objetoEvento: ticket.objetoEvento,
+          canalOperacion_no_reconocida: ticket.canalOperacionNoReconocida,
+          importeValorizadoMonedaNacional: ticket.importeMonedaNacional,
+        }
+      });
+    }
+    else if (ticket.estadoReclamacion === '102'){
+      newArray.push({
+        identificacionReclamacion: {
+          folioReclamacion: `F00000${ticket.idTicket}`,
+          estatusReclamacion: ticket.estadoReclamacion,
+          fechaActualizacionEstatus: getDate(ticket.lastUpdateHour),
+        },
+        detalleResolucion: {
+          fechaResolucion:
+            ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
+          sentidoResolucion: ticket.sentidoResolucion,
+          importeAbonadoCuentaCliente: ticket.importeAbonado,
+          fechaAbonoCuentaCliente: "",
+          identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
+          importeRecuperado: "", //agregar a freshservice
+          fechaRecuperacion:
+            ticket.fechaRecuperacion !== ""
+              ? getDate(ticket.fechaRecuperacion)
+              : "",
+          identificadorCuentaReceptora: ticket.identificadorCuentaReceptora,
+          quebrantoInstitucion: ticket.quebranto,
+        },
+      });
+    }
+    else if (ticket.estadoReclamacion === '103'){
+      newArray.push({
+        identificacionReclamacion: {
+          folioReclamacion: `F00000${ticket.idTicket}`,
+          estatusReclamacion: ticket.estadoReclamacion,
+          fechaActualizacionEstatus: getDate(ticket.lastUpdateHour),
+        },
+        detalleReclamacion: {
+          fechaReclamacion: getDate(ticket.hourOfCreation),
+          canalRecepcionReclamacion: ticket.tipoCanal,
+          descripcionReclamacion: ticket.asunto,
+        },
+      });
+    }
+    else if (ticket.estadoReclamacion === '104'){
+      newArray.push({
+        identificacionReclamacion: {
+          folioReclamacion: `F00000${ticket.idTicket}`,
+          estatusReclamacion: ticket.estadoReclamacion,
+          fechaActualizacionEstatus: getDate(ticket.lastUpdateHour),
+        },
+        detalleResolucion: {
+          fechaResolucion:
+            ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
+          sentidoResolucion: ticket.sentidoResolucion,
+          importeAbonadoCuentaCliente: ticket.importeAbonado,
+          fechaAbonoCuentaCliente: "",
+          identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
+          importeRecuperado: "", //agregar a freshservice
+          fechaRecuperacion:
+            ticket.fechaRecuperacion !== ""
+              ? getDate(ticket.fechaRecuperacion)
+              : "",
+          identificadorCuentaReceptora: ticket.identificadorCuentaReceptora,
+          quebrantoInstitucion: ticket.quebranto,
+        },
+      });
+    }
+    else {
+      console.log('error: do not have reclamation status')
+    }
 
 
-            
-            //fecha abono cuenta cliente
-            // identificador_cliente: "",
-            //     identificador_cuenta: "",
-            //     identificador_movimiento:""
-
-
-        });
+    newArray.push({
+      identificacionReclamacion: {
+        folioReclamacion: `F00000${ticket.idTicket}`,
+        estatusReclamacion: ticket.estadoReclamacion,
+        fechaActualizacionEstatus: getDate(ticket.lastUpdateHour),
+      },
+      identificadorClienteCuentaMovimiento: {
+        identificadorCliente: ticket.identificador_cliente, ///añadir a freshdesk y propagar aqui
+        identificadorCuenta: ticket.cuentaCliente,
+        identificadorMovimiento: ticket.identificador_movimiento, ///añadir a freshdesk y propagar aqui
+      },
+      detalleReclamacion: {
+        fechaReclamacion: getDate(ticket.hourOfCreation),
+        canalRecepcionReclamacion: ticket.tipoCanal,
+        tipoReclamacion: ticket.tipoReclamacion,
+        motivoReclamacion: ticket.motivoReclamacion,
+        descripcionReclamacion: ticket.asunto,
+      },
+      detalleEventoOriginaReclamacion: {
+        fechaEvento: getDate(ticket.hourOfCreation),
+        objetoEvento: ticket.objetoEvento,
+        canalOperacion_no_reconocida: ticket.canalOperacionNoReconocida,
+        importeValorizadoMonedaNacional: ticket.importeMonedaNacional,
+      },
+      detalleResolucion: {
+        fechaResolucion:
+          ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
+        sentidoResolucion: ticket.sentidoResolucion,
+        importeAbonadoCuentaCliente: ticket.importeAbonado,
+        fechaAbonoCuentaCliente: "",
+        identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
+        importeRecuperado: "", //agregar a freshservice
+        fechaRecuperacion:
+          ticket.fechaRecuperacion !== ""
+            ? getDate(ticket.fechaRecuperacion)
+            : "",
+        identificadorCuentaReceptora: ticket.identificadorCuentaReceptora,
+        quebrantoInstitucion: ticket.quebranto,
+      },
+    });
 
     return true;
   });
 
-  console.log("formato CNBV ", newArray);
+  let jsonArray = {
+    identificadorReporte: {
+      inicioPeriodo: "20240601",
+      finPeriodo: "20240831",
+      claveInstitucion: "065059",
+      reporte: "2701",
+    },
+    informacionSolicitada: newArray,
+  };
 
-  return newArray;
+  console.log("formato CNBV ", jsonArray);
+
+  return jsonArray;
 };
 
 function getDate(fecha: string) {
@@ -180,10 +267,8 @@ function getDate(fecha: string) {
   const ano = fechaReclamacionRaw.getFullYear();
   const mes = (fechaReclamacionRaw.getMonth() + 1).toString().padStart(2, "0"); // Los meses van de 0 a 11
   const dia = fechaReclamacionRaw.getDate().toString().padStart(2, "0");
-  console.log('get date ')
+  console.log("get date ");
   return `${ano}${mes}${dia}`;
 }
-
-
 
 export default convertoCnbvJson;
