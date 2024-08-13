@@ -93,7 +93,8 @@ interface Ticket {
   tipoCanal: string;
   estadoReclamacion: string;
   identificador_cliente: string;
-  identificador_movimiento: string
+  identificador_movimiento: string;
+  importeRecuperado: string;
 };
 
 

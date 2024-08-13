@@ -53,6 +53,7 @@ const convertoCnbvJson = (data: CsvData[]) => {
     //nuevos campos
     let identificador_cliente = ticket["Identificador de Cliente"];
     let identificador_movimiento = ticket["Identificador de Movimiento"];
+    let importeRecuperado = ticket["Importe Recupeado"];
 
     //construyo ticket de acuerdo al formato
     let newTicket: Ticket = {
@@ -92,6 +93,7 @@ const convertoCnbvJson = (data: CsvData[]) => {
       estadoReclamacion,
       identificador_cliente,
       identificador_movimiento,
+      importeRecuperado
     };
 
     ticketsArray.push(newTicket);
@@ -108,6 +110,12 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
   let newArray: any[] = [];
 
   arrayOfTickets.map((ticket) => {
+    ticket.quebranto = parseFloat(ticket.quebranto).toFixed(4);
+    ticket.importeRecuperado = parseFloat(ticket.importeRecuperado).toFixed(4);
+    ticket.importeAbonado = parseFloat(ticket.importeAbonado).toFixed(4);
+    ticket.importeRecuperado = parseFloat(ticket.importeRecuperado).toFixed(4);
+    ticket.importeMonedaNacional = parseFloat(ticket.importeMonedaNacional).toFixed(4);
+
 
     if (ticket.estadoReclamacion === '101') {
       newArray.push({
@@ -150,7 +158,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
           importeAbonadoCuentaCliente: ticket.importeAbonado,
           fechaAbonoCuentaCliente: "",
           identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
-          importeRecuperado: "", //agregar a freshservice
+          importeRecuperado: ticket.importeRecuperado, //agregar a freshservice
           fechaRecuperacion:
             ticket.fechaRecuperacion !== ""
               ? getDate(ticket.fechaRecuperacion)
@@ -188,7 +196,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
           importeAbonadoCuentaCliente: ticket.importeAbonado,
           fechaAbonoCuentaCliente: "",
           identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
-          importeRecuperado: "", //agregar a freshservice
+          importeRecuperado: ticket.importeRecuperado, //agregar a freshservice
           fechaRecuperacion:
             ticket.fechaRecuperacion !== ""
               ? getDate(ticket.fechaRecuperacion)
@@ -234,7 +242,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
         importeAbonadoCuentaCliente: ticket.importeAbonado,
         fechaAbonoCuentaCliente: "",
         identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
-        importeRecuperado: "", //agregar a freshservice
+        importeRecuperado: ticket.importeRecuperado, //agregar a freshservice
         fechaRecuperacion:
           ticket.fechaRecuperacion !== ""
             ? getDate(ticket.fechaRecuperacion)
