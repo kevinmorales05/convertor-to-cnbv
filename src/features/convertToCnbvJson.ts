@@ -131,7 +131,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
         detalleEventoOriginaReclamacion: {
           fechaEvento: getDate(ticket.hourOfCreation),
           objetoEvento: ticket.objetoEvento,
-          canalOperacion_no_reconocida: ticket.canalOperacionNoReconocida,
+          canalOperacionNoReconocida: ticket.canalOperacionNoReconocida,
           importeValorizadoMonedaNacional: ticket.importeMonedaNacional,
         }
       });
@@ -155,7 +155,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
             ticket.fechaRecuperacion !== ""
               ? getDate(ticket.fechaRecuperacion)
               : "",
-          identificadorCuentaReceptora: ticket.identificadorCuentaReceptora,
+          identificadorCuentaFideicomisoInstitucion: ticket.identificadorCuentaReceptora,
           quebrantoInstitucion: ticket.quebranto,
         },
       });
@@ -193,7 +193,7 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
             ticket.fechaRecuperacion !== ""
               ? getDate(ticket.fechaRecuperacion)
               : "",
-          identificadorCuentaReceptora: ticket.identificadorCuentaReceptora,
+          identificadorCuentaFideicomisoInstitucion: ticket.identificadorCuentaReceptora,
           quebrantoInstitucion: ticket.quebranto,
         },
       });
