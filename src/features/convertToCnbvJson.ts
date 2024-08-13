@@ -116,7 +116,8 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
     ticket.importeRecuperado = parseFloat(ticket.importeRecuperado).toFixed(4);
     ticket.importeMonedaNacional = parseFloat(ticket.importeMonedaNacional).toFixed(4);
 
-
+    console.log('estado reclamacion ', ticket.estadoReclamacion);
+    console.log('fecha evento ', ticket.hourOfCreation);
     if (ticket.estadoReclamacion === '101') {
       newArray.push({
         identificacionReclamacion: {
@@ -210,48 +211,6 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
       console.log('error: do not have reclamation status')
     }
 
-
-    newArray.push({
-      identificacionReclamacion: {
-        folioReclamacion: `F00000${ticket.idTicket}`,
-        estatusReclamacion: ticket.estadoReclamacion,
-        fechaActualizacionEstatus: getDate(ticket.lastUpdateHour),
-      },
-      identificadorClienteCuentaMovimiento: {
-        identificadorCliente: ticket.identificador_cliente, ///añadir a freshdesk y propagar aqui
-        identificadorCuenta: ticket.cuentaCliente,
-        identificadorMovimiento: ticket.identificador_movimiento, ///añadir a freshdesk y propagar aqui
-      },
-      detalleReclamacion: {
-        fechaReclamacion: getDate(ticket.hourOfCreation),
-        canalRecepcionReclamacion: ticket.tipoCanal,
-        tipoReclamacion: ticket.tipoReclamacion,
-        motivoReclamacion: ticket.motivoReclamacion,
-        descripcionReclamacion: ticket.asunto,
-      },
-      detalleEventoOriginaReclamacion: {
-        fechaEvento: getDate(ticket.hourOfCreation),
-        objetoEvento: ticket.objetoEvento,
-        canalOperacion_no_reconocida: ticket.canalOperacionNoReconocida,
-        importeValorizadoMonedaNacional: ticket.importeMonedaNacional,
-      },
-      detalleResolucion: {
-        fechaResolucion:
-          ticket.closeHour !== "" ? getDate(ticket.closeHour) : "",
-        sentidoResolucion: ticket.sentidoResolucion,
-        importeAbonadoCuentaCliente: ticket.importeAbonado,
-        fechaAbonoCuentaCliente: "",
-        identificadorCuentaInstitucion: ticket.identificadorCuentaReceptora,
-        importeRecuperado: ticket.importeRecuperado, //agregar a freshservice
-        fechaRecuperacion:
-          ticket.fechaRecuperacion !== ""
-            ? getDate(ticket.fechaRecuperacion)
-            : "",
-        identificadorCuentaReceptora: ticket.identificadorCuentaReceptora,
-        quebrantoInstitucion: ticket.quebranto,
-      },
-    });
-
     return true;
   });
 
@@ -275,7 +234,8 @@ function getDate(fecha: string) {
   const ano = fechaReclamacionRaw.getFullYear();
   const mes = (fechaReclamacionRaw.getMonth() + 1).toString().padStart(2, "0"); // Los meses van de 0 a 11
   const dia = fechaReclamacionRaw.getDate().toString().padStart(2, "0");
-  console.log("get date ");
+  console.log("raw date ", fecha);
+  console.log("get date ", `${ano}${mes}${dia}`);
   return `${ano}${mes}${dia}`;
 }
 
