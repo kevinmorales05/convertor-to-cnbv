@@ -53,7 +53,7 @@ const convertoCnbvJson = (data: CsvData[]) => {
     //nuevos campos
     let identificador_cliente = ticket["Identificador de Cliente"];
     let identificador_movimiento = ticket["Identificador de Movimiento"];
-    let importeRecuperado = ticket["Importe Recupeado"];
+    let importeRecuperado = ticket["Importe Recuperado"];
 
     //construyo ticket de acuerdo al formato
     let newTicket: Ticket = {
