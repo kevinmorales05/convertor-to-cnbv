@@ -95,7 +95,32 @@ interface Ticket {
   identificador_cliente: string;
   identificador_movimiento: string;
   importeRecuperado: string;
+  fechaEvento: string;
+  fechaAbonoCuentaCliente: string;
+  identificadorCuentaInstitucion: string;
 };
 
+interface Consulta {
+  
+    "InstitucionClave": string;
+    "Sector": string;
+    "ConsultasTrim": number;
+    "NumConsultas": 1,
+    "ConsultasFolio": string;
+    "ConsultasEstatusCon": 1,
+    "ConsultasFecAten": string;
+    "EstadosId": 32,
+    "ConsultasFecRecepcion": string;
+    "MediosId": 14,
+    "Producto": string;
+    "CausaId": string;
+    "ConsultasCP": 87070,
+    "ConsultasMpioId": 10,
+    "ConsultasLocId": 1,
+    "ConsultasColId": 2,
+    "ConsultascatnivelatenId": 1,
+    "ConsultasPori": string;
+    
+}
 
 export { CsvData, Reclamacion, Ticket };
