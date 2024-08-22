@@ -1,0 +1,32 @@
+.links-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
+}
+.link {
+    padding: 10px;
+    margin: 10px;
+    text-decoration: none;
+    color: #E67FAD;
+    font-size: 1.5rem;
+}
+.btn {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 30%;
+    margin: 10px;
+}
+.dashboard {
+    background-color: #59c0a4;
+    padding: 40px;
+    height: 900px;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 1.5rem;
+}

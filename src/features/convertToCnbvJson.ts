@@ -2,13 +2,14 @@
 
 import { CsvData, Ticket } from "../types/types";
 
-const convertoCnbvJson = (data: CsvData[]) => {
+const convertoCnbvJson = (data: CsvData[], date: string, dateEnd: string) => {
   console.log('to cnbv ', data[0]);
+  
 
   //depuracion ticket
   let ticketsArray: Array<Ticket> = [];
   data.map((ticket) => {
-    console.log(ticket);
+    //console.log(ticket);
    
   //Campos Freshdesk
     let idTicket = ticket["FOLIO DE RECLAMACIÓN"];
@@ -101,13 +102,13 @@ const convertoCnbvJson = (data: CsvData[]) => {
     ticketsArray.push(newTicket);
     return true;
   });
-  let jsonToSend = buildCNBVTicket(ticketsArray);
+  let jsonToSend = buildCNBVTicket(ticketsArray, date, dateEnd);
 
   //console.log('este es el csv ', csvFile);
   //console.log('to cnbv ', data);
   return jsonToSend;
 };
-const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
+const buildCNBVTicket = (arrayOfTickets: Array<Ticket>, date: string, dateEnd: string) => {
   console.log("Formatted array of tickets", arrayOfTickets);
   let newArray: any[] = [];
 
@@ -219,8 +220,8 @@ const buildCNBVTicket = (arrayOfTickets: Array<Ticket>) => {
 
   let jsonArray = {
     identificadorReporte: {
-      inicioPeriodo: "20240601",
-      finPeriodo: "20240831",
+      inicioPeriodo: date,
+      finPeriodo: dateEnd,
       claveInstitucion: "065059",
       reporte: "2701",
     },

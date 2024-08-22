@@ -14,3 +14,14 @@
     justify-content: center;
     text-align: center;
 }
+.btn-logout {
+    background-color: #59c0a4;
+    height: 30%;
+    width: 30%;
+    align-self: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    margin-left: 200px;
+    
+}

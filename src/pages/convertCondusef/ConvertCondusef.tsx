@@ -1,20 +1,20 @@
+
 import React, { useState } from "react";
 import "./Convertidor.css";
 import Button from "../../components/Button/Button.tsx";
 import { FaDownload } from "react-icons/fa";
 import Papa from "papaparse";
-import convertoCnbv from "../../features/convertToCnbv.ts";
 
 import { CsvData } from "../../types/types.ts";
-import convertoCnbvJson from "../../features/convertToCnbvJson.ts";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
 import { capitalizeFirstLetter, convertDateToYYYYMMDD } from "../../utils/utils.ts";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import convertoCondusefJson from "../../features/convertToCondusef.ts";
 
 
-export default function Convertidor() {
+export default function ConvertCondusef() {
   const context: any = useContext(Context);
   let username = capitalizeFirstLetter(context.username);
   const [fileToUpload, setFileToUpload] = useState("");
@@ -45,32 +45,9 @@ export default function Convertidor() {
     }
   };
 
-  function convertFileToCNBV(data) {
-    let file: CsvData[] = convertoCnbv(data);
-    console.log("archivo front ", file);
-    //const infoFile = data.target.files?.[0];
-
-    if (file) {
-      setDataConverted(file);
-      console.log("por aqui se valida bien");
-      setFileConvertedName("archivoConvertido.csv");
-      //setData(file as CsvData[]);
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: (results) => {
-          console.log("results ", results);
-          setData(results.data as CsvData[]);
-        },
-      });
-    }
-
-    console.log("to CNBV");
-    setUploadedFile(false);
-  }
   
-  function convertFileToCNBVJson() {
-    let file = convertoCnbvJson(data, convertDateToYYYYMMDD(date), convertDateToYYYYMMDD(dateEnd));
+  function convertFileToCondusefJson(tipo:string) {
+    let file = convertoCondusefJson(data, convertDateToYYYYMMDD(date), convertDateToYYYYMMDD(dateEnd), tipo);
     console.log("JSON", file);
 
     // Crear un blob a partir del CSV
@@ -86,8 +63,8 @@ export default function Convertidor() {
     console.log("json link", link);
     link.setAttribute("download", "r27File.json");
     document.body.appendChild(link);
-    link.click();
-  }
+    link.click(); 
+   }
 
   function downloadFile() {
     console.log("data to download ", data);
@@ -114,9 +91,9 @@ export default function Convertidor() {
 
 
   return (
-    <div className="convertidor-main">
+    <div className="App convertidor-main">
       <div className="convertidor-block">
-        <h1 className="convertidor-title">Convertidor</h1>
+        <h1 className="convertidor-title">Convertidor CONDUSEF</h1>
         
       </div>
       <p className="user-name"> {username}</p>
@@ -134,11 +111,27 @@ export default function Convertidor() {
           <div className="convertidor-btns">
            
             <Button
-              onClick={() => convertFileToCNBVJson(data)}
-              text={"Descargar archivo CNBV R7 JSON"}
+              onClick={() => convertFileToCondusefJson("consultas")}
+              text={"Descargar JSON CONSULTAS"}
             />
            
           </div>
+          <div className="convertidor-btns">
+           
+            <Button
+              onClick={() => convertFileToCondusefJson("reclamaciones")}
+              text={"Descargar JSON RECLAMACIONES"}
+            />
+           
+          </div>
+          <div className="convertidor-btns">
+           
+           <Button
+             onClick={() => convertFileToCondusefJson("aclaraciones")}
+             text={"Descargar JSON ACLARACIONES"}
+           />
+          
+         </div>
         </>
       ) : (
         <></>

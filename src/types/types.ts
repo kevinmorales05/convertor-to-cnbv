@@ -100,27 +100,93 @@ interface Ticket {
   identificadorCuentaInstitucion: string;
 };
 
-interface Consulta {
-  
-    "InstitucionClave": string;
-    "Sector": string;
-    "ConsultasTrim": number;
-    "NumConsultas": 1,
-    "ConsultasFolio": string;
-    "ConsultasEstatusCon": 1,
-    "ConsultasFecAten": string;
-    "EstadosId": 32,
-    "ConsultasFecRecepcion": string;
-    "MediosId": 14,
-    "Producto": string;
-    "CausaId": string;
-    "ConsultasCP": 87070,
-    "ConsultasMpioId": 10,
-    "ConsultasLocId": 1,
-    "ConsultasColId": 2,
-    "ConsultascatnivelatenId": 1,
-    "ConsultasPori": string;
-    
+interface ConsultaReune {
+    InstitucionClave: string;
+    Sector: string;
+    ConsultasTrim: number;
+    NumConsultas: number,
+    ConsultasFolio: string;
+    ConsultasEstatusCon: number,
+    ConsultasFecAten: string;
+    EstadosId: number,
+    ConsultasFecRecepcion: string;
+    MediosId: number,
+    Producto: string;
+    CausaId: string;
+    ConsultasCP: number,
+    ConsultasMpioId: number,
+    ConsultasLocId: number,
+    ConsultasColId: number,
+    ConsultascatnivelatenId: number,
+    ConsultasPori: string; 
 }
 
-export { CsvData, Reclamacion, Ticket };
+interface ReclamacionReune {
+		RecDenominacion:string;
+		RecSector:string;
+		RecTrimestre:number;
+		RecNumero:number;
+		RecFolioAtencion:string;
+		RecEstadoConPend:number;
+		RecFechaReclamacion:string;
+		RecFechaAtencion:string;
+		RecMedioRecepcionCanal:number;
+		RecProductoServicio:string;
+		RecCausaMotivo:string;
+		RecFechaResolucion:string;
+		RecFechaNotifiUsuario:string;
+		RecEntidadFederativa:number;
+		RecCodigoPostal:number;
+		RecMunicipioAlcaldia:number;
+		RecLocalidad:number;
+		RecColonia:null | string;
+		RecMonetario:string;
+		RecMontoReclamado: number;
+		RecImporteAbonado:number;
+		RecFechaAbonoImporte:string;
+		RecPori:string;
+		RecTipoPersona:number;
+		RecSexo:string;
+		RecEdad:number;
+		RecSentidoResolucion:number;
+		RecNivelAtencion:number;
+		RecFolioCondusef:null | string;
+		RecReversa:null | string;
+}
+
+interface AclaracionesReune {
+  AclaracionDenominacion: string;
+    AclaracionSector: string;
+    AclaracionTrimestre: number;
+    AclaracionNumero: number;
+    AclaracionFolioAtencion: string;
+    AclaracionEstadoConPend: number;
+    AclaracionFechaAclaracion: string;
+    AclaracionFechaAtencion: string;
+    AclaracionMedioRecepcionCanal: 5;
+    AclaracionProductoServicio: string;
+    AclaracionCausaMotivo: string;
+    AclaracionFechaResolucion: string;
+    AclaracionFechaNotifiUsuario: string;
+    AclaracionEntidadFederativa: number;    
+    AclaracionCodigoPostal: number;
+    AclaracionMunicipioAlcaldia: number;
+    AclaracionLocalidad: number;
+    AclaracionColonia: null | string;
+    AclaracionMonetario: string;
+    AclaracionMontoReclamado: null | string;
+    AclaracionPori: string;
+    AclaracionTipoPersona: number;
+    AclaracionSexo: string;
+    AclaracionEdad: number;
+    AclaracionNivelAtencion: number;
+    AclaracionFolioCondusef: null | string;
+    AclaracionReversa: null | string;
+    AclaracionOperacionExtranjero: string;
+}
+
+interface UserReune {
+  username: string;
+  password: string;
+}
+export { CsvData, Reclamacion, Ticket, ConsultaReune, ReclamacionReune, AclaracionesReune, UserReune };
