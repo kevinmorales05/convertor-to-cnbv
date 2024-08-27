@@ -3,7 +3,6 @@ import "./Convertidor.css";
 import Button from "../../components/Button/Button.tsx";
 import { FaDownload } from "react-icons/fa";
 import Papa from "papaparse";
-import convertoCnbv from "../../features/convertToCnbv.ts";
 
 import { CsvData } from "../../types/types.ts";
 import convertoCnbvJson from "../../features/convertToCnbvJson.ts";
@@ -20,10 +19,10 @@ export default function Convertidor() {
   const [fileToUpload, setFileToUpload] = useState("");
   //data uploaded
   const [data, setData] = useState<CsvData[]>([]);
-  const [dataConverted, setDataConverted] = useState<CsvData[]>([]);
+  const [dataConverted] = useState<CsvData[]>([]);
 
   const [uploadedFile, setUploadedFile] = useState(false);
-  const [fileConvertedName, setFileConvertedName] = useState("");
+  const [fileConvertedName] = useState("");
   const [dateEnd, setDateEnd] = useState(new Date());
   const [date, setDate] = useState(new Date());
 
@@ -44,30 +43,6 @@ export default function Convertidor() {
       setUploadedFile(true);
     }
   };
-
-  function convertFileToCNBV(data) {
-    let file: CsvData[] = convertoCnbv(data);
-    console.log("archivo front ", file);
-    //const infoFile = data.target.files?.[0];
-
-    if (file) {
-      setDataConverted(file);
-      console.log("por aqui se valida bien");
-      setFileConvertedName("archivoConvertido.csv");
-      //setData(file as CsvData[]);
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: (results) => {
-          console.log("results ", results);
-          setData(results.data as CsvData[]);
-        },
-      });
-    }
-
-    console.log("to CNBV");
-    setUploadedFile(false);
-  }
   
   function convertFileToCNBVJson() {
     let file = convertoCnbvJson(data, convertDateToYYYYMMDD(date), convertDateToYYYYMMDD(dateEnd));

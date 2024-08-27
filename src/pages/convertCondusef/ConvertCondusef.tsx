@@ -8,8 +8,8 @@ import Papa from "papaparse";
 import { CsvData } from "../../types/types.ts";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
-import { capitalizeFirstLetter, convertDateToYYYYMMDD } from "../../utils/utils.ts";
-import DatePicker from "react-datepicker";
+import { capitalizeFirstLetter } from "../../utils/utils.ts";
+
 import "react-datepicker/dist/react-datepicker.css";
 import convertoCondusefJson from "../../features/convertToCondusef.ts";
 import { sendAclaraciones, sendConsultasCondusef, sendReclamaciones } from "../../services/condusef/condusef.ts";
@@ -23,10 +23,10 @@ export default function ConvertCondusef() {
   const [fileToUpload, setFileToUpload] = useState("");
   //data uploaded
   const [data, setData] = useState<CsvData[]>([]);
-  const [dataConverted, setDataConverted] = useState<CsvData[]>([]);
+  const [dataConverted] = useState<CsvData[]>([]);
 
   const [uploadedFile, setUploadedFile] = useState(false);
-  const [fileConvertedName, setFileConvertedName] = useState("");
+  const [fileConvertedName] = useState("");
   const [typeForm, setTypeForm] = useState("1");
  
   const [trimestre, setTrimestre] = useState("1");

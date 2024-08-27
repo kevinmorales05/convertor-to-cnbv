@@ -1,6 +1,4 @@
-//convertir en un archivo csv segun el formato establecido
-
-import { ConsultaReune, CsvData, Ticket } from "../types/types";
+import { CsvData} from "../types/types";
 
 const convertoCondusefJson = (
   data: CsvData[],
@@ -12,11 +10,6 @@ const convertoCondusefJson = (
   //depuracion ticket
   let ticketsArray: Array<any> = [];
   data.map((ticket) => {
-    //console.log(ticket);
-
-    //Campos Freshdesk
-
-    //Consultas, campos generales
     let denominacion = ticket["DENOMINACION"];
     let sector = ticket["SECTOR"];
     let trimestre = ticket["TRIMESTRE"];
