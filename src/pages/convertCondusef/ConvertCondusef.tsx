@@ -12,9 +12,12 @@ import { capitalizeFirstLetter, convertDateToYYYYMMDD } from "../../utils/utils.
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import convertoCondusefJson from "../../features/convertToCondusef.ts";
-
+import { sendAclaraciones, sendConsultasCondusef, sendReclamaciones } from "../../services/condusef/condusef.ts";
+import { useNavigate } from "react-router-dom";
+import ReactJson from 'react-json-view';
 
 export default function ConvertCondusef() {
+  const navigate = useNavigate();
   const context: any = useContext(Context);
   let username = capitalizeFirstLetter(context.username);
   const [fileToUpload, setFileToUpload] = useState("");
@@ -24,11 +27,16 @@ export default function ConvertCondusef() {
 
   const [uploadedFile, setUploadedFile] = useState(false);
   const [fileConvertedName, setFileConvertedName] = useState("");
-  const [dateEnd, setDateEnd] = useState(new Date());
-  const [date, setDate] = useState(new Date());
+  const [typeForm, setTypeForm] = useState("1");
+ 
   const [trimestre, setTrimestre] = useState("1");
+  const [downloadedJson, setDownloadedJson] = useState(false);
+  const [jsonCondusef, setJsonCondusef] = useState<any>(null);
+  const [errorsList, setErrorsList] = useState<any>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDownloadedJson(false);
+    setErrorsList(null);
     const file = event.target.files?.[0];
     // console.log("archivo", file);
     // console.log("archivo nombre", file.name);
@@ -53,7 +61,8 @@ export default function ConvertCondusef() {
   function convertFileToCondusefJson(tipo:string) {
     let file = convertoCondusefJson(data, trimestre, tipo);
     console.log("JSON", file);
-
+    console.log('setting the json in the app');
+    setJsonCondusef(file);
     // Crear un blob a partir del CSV
     const jsonString = JSON.stringify(file, null, 2);
 
@@ -79,6 +88,7 @@ export default function ConvertCondusef() {
     link.setAttribute("download", `condusef-${nameTipo}.json`);
     document.body.appendChild(link);
     link.click(); 
+    setDownloadedJson(true);
    }
 
   function downloadFile() {
@@ -104,6 +114,56 @@ export default function ConvertCondusef() {
     console.log("descargando archivo");
   }
 
+  async function sendFileToCondusef(){
+    console.log('Sending file to Condusef');
+    console.log('selected function ', typeForm);
+    if(typeForm === '1'){
+      let response = await sendConsultasCondusef(jsonCondusef, context.token);
+      console.log("response consultas", response);
+     
+      if(response.msg) {
+        alert(`${response.msg}`);
+        //aqui navegar al login
+        navigate("/login");
+      }
+      else {
+       console.log(response.errors);
+       setErrorsList(response.errors);
+        alert(`${response.message} `);
+      }
+    }
+    if(typeForm === '2'){
+      let response = await sendAclaraciones(jsonCondusef, context.token);
+      console.log("response aclaraciones", response);
+      if(response.msg) {
+        alert(`${response.msg}`);
+        //aqui navegar al login
+        navigate("/login");
+      }
+      else {
+       console.log(response.errors);
+       setErrorsList(response.errors);
+        alert(`${response.message} `);
+      }
+    }
+    if(typeForm === '3'){
+      let response = await sendReclamaciones(jsonCondusef, context.token);
+      if(response.msg) {
+        alert(`${response.msg}`);
+        //aqui navegar al login
+        navigate("/login");
+      }
+      else {
+       console.log(response.errors);
+       setErrorsList(response.errors);
+        alert(`${response.message} `);
+      }
+    }
+
+
+
+
+  }
 
   return (
     <div className="App convertidor-main">
@@ -121,12 +181,12 @@ export default function ConvertCondusef() {
           name="Subir un archivo"
         />
       </div>
-      {data.length !== 0 ? (
+      {data.length !== 0 ? ( 
         <>
+        {
+          downloadedJson === false ? <>
           <div className="convertidor-btns">
-          <p>Escoger el semestre</p>
-      
-      {/* Select element with onChange handler */}
+          <p>Escoger el trimestre</p>
             <select value={trimestre} onChange={handleSelectChange}>
               <option value="">Trimestre</option>
               <option value="1">1</option>
@@ -136,7 +196,9 @@ export default function ConvertCondusef() {
             </select>
            
             <Button
-              onClick={() => convertFileToCondusefJson("1")}
+              onClick={() => {convertFileToCondusefJson("1")
+                setTypeForm("1");
+              }}
               text={"Descargar JSON CONSULTAS"}
             />
            
@@ -144,7 +206,9 @@ export default function ConvertCondusef() {
           <div className="convertidor-btns">
            
             <Button
-              onClick={() => convertFileToCondusefJson("2")}
+              onClick={() => {convertFileToCondusefJson("2")
+                setTypeForm("2");
+              }}
               text={"Descargar JSON RECLAMACIONES"}
             />
            
@@ -152,12 +216,35 @@ export default function ConvertCondusef() {
           <div className="convertidor-btns">
            
            <Button
-             onClick={() => convertFileToCondusefJson("3")}
+             onClick={() => {convertFileToCondusefJson("3")
+              setTypeForm("3");
+            }}
              text={"Descargar JSON ACLARACIONES"}
            />
           
          </div>
+          </> : <>
+          <Button
+             onClick={() => {
+              sendFileToCondusef();
+            }}
+             text={"Enviar información a CONDUSEF"}
+           />
+           {
+            errorsList === null ? <></>: <>
+           {/* <pre>{JSON.stringify(errorsList, null, 2)}</pre>  */}
+            <div className="jsonViewer">
+              <h2>Errores</h2>
+              <ReactJson src={errorsList} />
+            </div>
+            
+            </>
+           }
+          </>
+        }
+          
         </>
+
       ) : (
         <></>
       )}

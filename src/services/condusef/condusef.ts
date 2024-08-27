@@ -22,8 +22,11 @@ export async function sendConsultasCondusef(consultas: ConsultaReune[], token:st
     });
     console.log(response);
     if(response.ok){
-      console.log("The response was not as we hoped!");
-      return response;
+      console.log("The response was successfull!");
+      return await response.json();
+    }
+    else {
+      return await response.json();
     }
 
   } catch (error) {
@@ -47,12 +50,15 @@ export async function sendAclaraciones(aclaraciones: AclaracionesReune[], token:
     });
     console.log(response);
     if(response.ok){
-      console.log("The response was not as we hoped!");
-      return response;
+      console.log("The response was successfull!");
+      return await response.json();
+    }
+    else {
+      return await response.json();
     }
 
   } catch (error) {
-    console.log('Consultas error ', error);
+    console.log('Aclaraciones error ', error);
     return error;
   }
 }
@@ -71,12 +77,15 @@ export async function sendReclamaciones(reclamaciones: ReclamacionReune[], token
     });
     console.log(response);
     if(response.ok){
-      console.log("The response was not as we hoped!");
-      return response;
+      console.log("The response was successfull!");
+      return await response.json();
+    }
+    else {
+      return await response.json();
     }
 
   } catch (error) {
-    console.log('Consultas error ', error);
+    console.log('Reclamaciones error ', error);
     return error;
   }
 }
