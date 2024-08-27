@@ -7,13 +7,13 @@ import Papa from "papaparse";
 import { CsvData } from "../../types/types.ts";
 import convertoCnbvJson from "../../features/convertToCnbvJson.ts";
 import { useContext } from "react";
-import { Context } from "../../context/Context";
+import { Context } from "../../context/Context.js";
 import { capitalizeFirstLetter, convertDateToYYYYMMDD } from "../../utils/utils.ts";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-export default function Convertidor() {
+export default function ConvertR27() {
   const context: any = useContext(Context);
   let username = capitalizeFirstLetter(context.username);
   const [fileToUpload, setFileToUpload] = useState("");

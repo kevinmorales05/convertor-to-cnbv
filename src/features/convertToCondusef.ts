@@ -95,6 +95,7 @@ const convertoCondusefJson = (
     //add the new ticket
     console.log('ticket processed ', newTicket);
     ticketsArray.push(newTicket);
+    return true;
   });
   console.log('array before send ', ticketsArray);
   let jsonToSend = buildCondusefTicket(ticketsArray, trimestre, tipo);
