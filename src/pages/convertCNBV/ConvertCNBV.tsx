@@ -1,10 +1,10 @@
 import React from "react";
-import Convertidor from "../convertidor/ConvertR27.tsx";
+import ConvertR27 from "../convertidor/ConvertR27.tsx";
 
 export default function ConvertCNBV() {
   return (
     <div className="App">
-      <Convertidor />
+      <ConvertR27 />
     </div>
   );
 }
