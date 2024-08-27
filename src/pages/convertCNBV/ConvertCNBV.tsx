@@ -1,5 +1,5 @@
 import React from "react";
-import ConvertR27 from "../convertidor/ConvertR27.tsx";
+import ConvertR27 from "../R27/ConvertR27.tsx";
 
 export default function ConvertCNBV() {
   return (
