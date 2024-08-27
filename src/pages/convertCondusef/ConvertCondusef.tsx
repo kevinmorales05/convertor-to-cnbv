@@ -26,11 +26,12 @@ export default function ConvertCondusef() {
   const [fileConvertedName, setFileConvertedName] = useState("");
   const [dateEnd, setDateEnd] = useState(new Date());
   const [date, setDate] = useState(new Date());
+  const [trimestre, setTrimestre] = useState("1");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log("archivo", file);
-    console.log("archivo nombre", file.name);
+    // console.log("archivo", file);
+    // console.log("archivo nombre", file.name);
     setFileToUpload(file.name);
     if (file) {
       Papa.parse(file, {
@@ -45,9 +46,12 @@ export default function ConvertCondusef() {
     }
   };
 
-  
+  const handleSelectChange = (event) => {
+    setTrimestre(event.target.value); // Update the state with the selected value
+  };
+
   function convertFileToCondusefJson(tipo:string) {
-    let file = convertoCondusefJson(data, convertDateToYYYYMMDD(date), convertDateToYYYYMMDD(dateEnd), tipo);
+    let file = convertoCondusefJson(data, trimestre, tipo);
     console.log("JSON", file);
 
     // Crear un blob a partir del CSV
@@ -61,7 +65,18 @@ export default function ConvertCondusef() {
     const link = document.createElement("a");
     link.href = url;
     console.log("json link", link);
-    link.setAttribute("download", "r27File.json");
+    let nameTipo: string = "";
+    if(tipo === "1"){
+      nameTipo = "consultas";
+    }
+    else if(tipo === "2") {
+      nameTipo = "reclamaciones";
+    }
+    else if(tipo === "3") {
+      nameTipo = "aclaraciones";
+    }
+   
+    link.setAttribute("download", `condusef-${nameTipo}.json`);
     document.body.appendChild(link);
     link.click(); 
    }
@@ -109,9 +124,19 @@ export default function ConvertCondusef() {
       {data.length !== 0 ? (
         <>
           <div className="convertidor-btns">
+          <p>Escoger el semestre</p>
+      
+      {/* Select element with onChange handler */}
+            <select value={trimestre} onChange={handleSelectChange}>
+              <option value="">Trimestre</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
            
             <Button
-              onClick={() => convertFileToCondusefJson("consultas")}
+              onClick={() => convertFileToCondusefJson("1")}
               text={"Descargar JSON CONSULTAS"}
             />
            
@@ -119,7 +144,7 @@ export default function ConvertCondusef() {
           <div className="convertidor-btns">
            
             <Button
-              onClick={() => convertFileToCondusefJson("reclamaciones")}
+              onClick={() => convertFileToCondusefJson("2")}
               text={"Descargar JSON RECLAMACIONES"}
             />
            
@@ -127,7 +152,7 @@ export default function ConvertCondusef() {
           <div className="convertidor-btns">
            
            <Button
-             onClick={() => convertFileToCondusefJson("aclaraciones")}
+             onClick={() => convertFileToCondusefJson("3")}
              text={"Descargar JSON ACLARACIONES"}
            />
           
@@ -139,14 +164,7 @@ export default function ConvertCondusef() {
 
       {uploadedFile === true ? (
         <>
-        <div className="date-section">
-          <p>Si no se escoge las fechas de inicio o fin, el archivo se imprime con las fechas del día de hoy.</p>
-          <label htmlFor="initDate">Fecha de inicio de reporte</label>
-          <DatePicker name="initDate" selected={date} onChange={(date) => setDate(date)} />
-          <label htmlFor="endDate">Fecha de final de reporte</label>
-          <DatePicker name="endDate" selected={dateEnd} onChange={(date) => setDateEnd(date)} />
-
-        </div>
+        
           <div>
             <h2>Archivo Cargado</h2>
             <p>{fileToUpload}</p>

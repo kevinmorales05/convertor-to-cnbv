@@ -8,11 +8,78 @@ import {
 let condusefUrl = "https://api-reune-pruebas.condusef.gob.mx";//process.env.condusef_url;
 let urlLogin = "http://localhost:3000/api/refreshToken";
 
-export async function sendConsultasCondusef(consultas: ConsultaReune[]) {}
+export async function sendConsultasCondusef(consultas: ConsultaReune[], token:string) {
+  try {
+    const response = await fetch(`${condusefUrl}/reune/consultas/general`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(consultas),
 
-export async function sendAclaraciones(aclaraciones: AclaracionesReune[]) {}
+    });
+    console.log(response);
+    if(response.ok){
+      console.log("The response was not as we hoped!");
+      return response;
+    }
 
-export async function sendReclamaciones(reclamaciones: ReclamacionReune[]) {}
+  } catch (error) {
+    console.log('Consultas error ', error);
+    return error;
+  }
+
+}
+
+export async function sendAclaraciones(aclaraciones: AclaracionesReune[], token:string) {
+  try {
+    const response = await fetch(`${condusefUrl}/reune/reclamaciones/general`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(aclaraciones),
+
+    });
+    console.log(response);
+    if(response.ok){
+      console.log("The response was not as we hoped!");
+      return response;
+    }
+
+  } catch (error) {
+    console.log('Consultas error ', error);
+    return error;
+  }
+}
+
+export async function sendReclamaciones(reclamaciones: ReclamacionReune[], token:string) {
+  try {
+    const response = await fetch(`${condusefUrl}/reune/aclaraciones/general`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(reclamaciones),
+
+    });
+    console.log(response);
+    if(response.ok){
+      console.log("The response was not as we hoped!");
+      return response;
+    }
+
+  } catch (error) {
+    console.log('Consultas error ', error);
+    return error;
+  }
+}
 
 export async function loginReune(user: UserReune) {
   try {
@@ -41,3 +108,7 @@ export async function loginReune(user: UserReune) {
     throw error;
   }
 }
+
+
+
+///raise money wasach, story telling, what are I working on, silicon slopes, byu management societies, start up midups.
