@@ -21,6 +21,7 @@ function App() {
       <Router>
         <Header logged={logged} setLogged={setLogged} />
         <Routes>
+          <Route path="/" element={<Login setLogged={setLogged} />} />
           <Route path="/login" element={<Login setLogged={setLogged} />} />
           {logged === true ? (
             <>

@@ -6,7 +6,7 @@ import {
 } from "../../types/types";
 
 let condusefUrl = "https://api-reune-pruebas.condusef.gob.mx";//process.env.condusef_url;
-let urlLogin = "http://localhost:3000/api/refreshToken";
+let urlLogin = "https://prodycondusef.onrender.com/api/refreshToken";
 
 export async function sendConsultasCondusef(consultas: ConsultaReune[], token:string) {
   try {
