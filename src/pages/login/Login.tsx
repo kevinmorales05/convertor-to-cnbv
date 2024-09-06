@@ -61,6 +61,10 @@ export default function Login(props) {
 
         <input className="btn" type="submit" />
       </form>
+      <button className="btn" style={{backgroundColor:'black', color:'white'}} onClick={()=> {
+        console.log('go to anonymus');
+        navigate("/buzon");
+      }}>Buzón Anónimo</button>
     </div>
   );
 }

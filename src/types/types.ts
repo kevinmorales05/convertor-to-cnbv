@@ -189,4 +189,11 @@ interface UserReune {
   username: string;
   password: string;
 }
-export { CsvData, Reclamacion, Ticket, ConsultaReune, ReclamacionReune, AclaracionesReune, UserReune };
+
+interface ReporteAnonimo {
+  Reporte: string;
+  ComentariosOC: string;
+  DatosPersona: string;
+  Fecha: Date;
+}
+export { CsvData, Reclamacion, Ticket, ConsultaReune, ReclamacionReune, AclaracionesReune, UserReune, ReporteAnonimo };

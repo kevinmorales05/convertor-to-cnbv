@@ -10,9 +10,10 @@ import NoMatch from "./pages/nomatch/NoMatch.tsx";
 import ConvertCNBV from "./pages/convertCNBV/ConvertCNBV.tsx";
 import ConvertCondusef from "./pages/convertCondusef/ConvertCondusef.tsx";
 import { Context } from "./context/Context.js";
+import Buzon from "./pages/Buzon/Buzon.tsx";
 
 function App() {
-  const [logged, setLogged] = useState(true);
+  const [logged, setLogged] = useState(false);
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
 
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login setLogged={setLogged} />} />
           <Route path="/login" element={<Login setLogged={setLogged} />} />
+          <Route path="/buzon" element={<Buzon />} />
           {logged === true ? (
             <>
               <Route path="/dashboard" element={<Dashboard />} />
