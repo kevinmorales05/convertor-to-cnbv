@@ -1,6 +1,6 @@
 import { ReporteAnonimo } from "../../types/types";
 
-let mindsURL = "http://localhost:3000/api/insertReporteAnonimo";
+let mindsURL = "https://prodycondusef.onrender.com/api/insertReporteAnonimo";
 
 export async function sendReport(reporte: ReporteAnonimo) {
   try {
