@@ -63,7 +63,7 @@ export default function Buzon() {
         <input
           className="input"
           {...register("DatosPersona", { required: false })}
-          placeholder="Datos persona que reporta"
+          placeholder="Datos persona denunciada"
         />
         <textarea
           {...register("ComentariosOC", { required: true })}
