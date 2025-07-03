@@ -15,8 +15,8 @@ const convertoCondusefJson = (
     let trimestre = ticket["TRIMESTRE"];
     let numero = ticket["NUMERO"];
     let folioReclamacion = ticket["FOLIO"];
-    let estadoReclamacion = ticket["ESTATUS DE LA RECLAMACIÓN"];
-    let fechaReclamacion = ticket["FECHA DE RECLAMACIÓN"];
+    let estadoReclamacion = ticket["ESTATUS DE LA RECLAMACION"];
+    let fechaReclamacion = ticket["FECHA DE RECLAMACION"];
     let codEstado = ticket["CODESTADO"];
     let medioRecepcionCanal = ticket["MEDIORECEPCIONCANAL"];
     let producto = ticket["PRODUCTO"];
@@ -139,6 +139,7 @@ const buildCondusefTicket = (
         ConsultascatnivelatenId: parseInt(ticket.nivelAtencion,10),
         ConsultasPori: ticket.pori,
       });
+      console.log('va por este json ', newArray);
     }
     if (tipo === "2") {
       console.log('va por aqui, tipo 2')
