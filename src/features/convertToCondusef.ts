@@ -118,8 +118,8 @@ const buildCondusefTicket = (
     console.log("this is the ticket",ticket);
     if (tipo === "1") {
       newArray.push({
-        //InstitucionClave: ticket.denominacion,
         InstitucionClave: "Quantum Pay, S.A. de C.V., Institución de Fondos de Pago Electrónico",
+        //InstitucionClave: "Quantum Pay, S.A. de C.V., Institución de Fondos de Pago Electrónico",
         //Sector: ticket.sector,
         Sector: "Instituciones de Fondos de Pago Electrónico",
         ConsultasTrim: parseInt(trimestre, 10),
