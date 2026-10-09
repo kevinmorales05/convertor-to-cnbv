@@ -15,8 +15,9 @@ const convertoCondusefJson = (
     let trimestre = ticket["TRIMESTRE"];
     let numero = ticket["NUMERO"];
     let folioReclamacion = ticket["FOLIO"];
-    let estadoReclamacion = ticket["ESTATUS DE LA RECLAMACION"];
-    let fechaReclamacion = ticket["FECHA DE RECLAMACION"];
+    let estadoReclamacion = ticket["ESTATUS DE LA RECLAMACIÓN"] || ticket["ESTATUS DE LA RECLAMACION"];
+    let fechaReclamacion = ticket["FECHA DE RECLAMACIÓN"] || ticket["FECHA DE RECLAMACION"];
+    let fechaAtencion = ticket["FECHA DE ATENCION"] || ticket["FECHA DE ATENCIÓN"];
     let codEstado = ticket["CODESTADO"];
     let medioRecepcionCanal = ticket["MEDIORECEPCIONCANAL"];
     let producto = ticket["PRODUCTO"];
@@ -38,6 +39,7 @@ const convertoCondusefJson = (
       folioReclamacion,
       estadoReclamacion,
       fechaReclamacion,
+      fechaAtencion,
       codEstado,
       medioRecepcionCanal,
       producto,
@@ -126,7 +128,7 @@ const buildCondusefTicket = (
         NumConsultas: parseInt(ticket.numero,10),
         ConsultasFolio: ticket.folioReclamacion,
         ConsultasEstatusCon: parseInt( ticket.estadoReclamacion,10),
-        ConsultasFecAten: ticket.fechaReclamacion,
+        ConsultasFecAten: ticket.fechaAtencion,
         EstadosId: parseInt(ticket.codEstado,10),
         ConsultasFecRecepcion: ticket.fechaReclamacion,
         MediosId: parseInt(ticket.medioRecepcionCanal,10),
